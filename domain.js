@@ -87,3 +87,19 @@ export function addTask(tasks, title, priority) {
 
     return [...tasks, newTask];
 }
+
+export function changeTaskStatus(tasks, id, newStatus) {
+    if (!STATUSES.includes(newStatus)) {
+        throw new Error("Niepoprawny status zgłoszenia!");
+    }
+
+    if (!tasks.some(task => task.id === id)) {
+        throw new Error("Nie znaleziono zgłoszenia!");
+    }
+
+    return tasks.map(task =>
+        task.id === id
+            ? { ...task, status: newStatus }
+            : task
+    );
+}
