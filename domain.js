@@ -15,7 +15,7 @@ export function validateTasks(data) {
 
     const ids = new Set();
 
-    const validatedTasks = data.map(task => {
+    return data.map(task => {
         if (
             task === null ||
             typeof task !== "object" ||
@@ -59,6 +59,31 @@ export function validateTasks(data) {
             priority
         };
     });
+}
 
-    return validatedTasks;
+export function addTask(tasks, title, priority) {
+    if (tasks.length >= MAX_TASKS) {
+        throw new Error("Nie można dodać więcej niż 1000 zgłoszeń!");
+    }
+
+    if (
+        typeof title !== "string" ||
+        title.trim().length < 3 ||
+        title.trim().length > 80
+    ) {
+        throw new Error("Tytuł musi mieć od 3 do 80 znaków!");
+    }
+
+    if (!PRIORITIES.includes(priority)) {
+        throw new Error("Niepoprawny priorytet!");
+    }
+
+    const newTask = {
+        id: crypto.randomUUID(),
+        title: title.trim(),
+        status: "new",
+        priority
+    };
+
+    return [...tasks, newTask];
 }
