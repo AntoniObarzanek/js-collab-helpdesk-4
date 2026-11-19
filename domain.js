@@ -103,3 +103,11 @@ export function changeTaskStatus(tasks, id, newStatus) {
             : task
     );
 }
+
+export function deleteTask(tasks, id) {
+    if (!tasks.some(task => task.id === id)) {
+        throw new Error("Nie znaleziono zgłoszenia!");
+    }
+
+    return tasks.filter(task => task.id !== id);
+}
